@@ -28,4 +28,4 @@
   dplyr\
   tidyverse\
   infer\
-  ggplot2\
+  ggplot2
