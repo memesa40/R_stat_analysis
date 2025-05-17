@@ -40,13 +40,15 @@ n <- nrow(sleep_data_raw)
 
 # generate genders( female = 1, male = 0) and ages based on data from the primary study
 
-gender_sampling <- sample(c(1,0), n, replace = TRUE, prob = c(0.55,0.45))
+gender_sampling <- sample(c("female","male"), n, replace = TRUE, prob = c(0.55,0.45))
+gender_in_numbers <- sample(c(1,0), n, replace = TRUE, prob = c(0.55,0.45))
 age_sampling <- sample(20:25, n, replace = TRUE)
 
 # add to data frame
 
 sleep_data_raw $ gender <- gender_sampling
 sleep_data_raw $ age <- age_sampling
+sleep_data_raw $ gender_num <- gender_in_numbers
 
 # review head of table 
 
@@ -54,14 +56,19 @@ head(sleep_data_raw)
 
 # plot relations
 
-plot(sleep_data_raw$age, sleep_data_raw$reaction_time)
-plot(sleep_data_raw$gender, sleep_data_raw$reaction_time)
+sleep_data_raw %>%
+  ggplot(aes(reaction_time, age, color = gender)) +
+  geom_point()
+
+sleep_data_raw %>%
+  ggplot(aes(hours_slept, reaction_time, color = gender)) +
+  geom_point()
 
 # creating regression models for each
 regression_age <- lm(reaction_time ~ age, data = sleep_data_raw)
 summary(regression_age)
 
-regression_gender <- lm(reaction_time ~ gender, data = sleep_data_raw)
+regression_gender <- lm(reaction_time ~ gender_num, data = sleep_data_raw)
 summary(regression_gender)
 
 # age & gender do not affect the reaction time significantly in this sample
@@ -91,7 +98,7 @@ obs_diff
 #creating null hypothesis 
 
 null_dist <- sleep_data_two_groups %>%
-  specify(reaction_fast ~ hours_slept, success = "fast") %>%
+  specify(reaction_time_categ ~ hours_slept, success = "fast") %>%
   hypothesize(null = "independence") %>%
   generate(reps = 1000, type = "permute") %>%
   calculate(stat = "diff in props", order = c("4-5", "9-10"))  
@@ -119,7 +126,7 @@ null_dist %>%
 
 # regression model with multiple variations
 
-multiple_regressions <- lm(reaction_time ~ hours_slept + age + gender, data = sleep_data_raw)
+multiple_regressions <- lm(reaction_time ~ hours_slept + age + gender_num , data = sleep_data_raw)
 summary(multiple_regressions)
 
 #hours_slept categories seem to have mixed effects: might indicate false measurements.
