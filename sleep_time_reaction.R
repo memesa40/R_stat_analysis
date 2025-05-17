@@ -68,21 +68,25 @@ summary(regression_gender)
 
 #### Is sleep time related to reaction time ?
 
-median_rt <- median(sleep_data_raw$reaction_time)
+#creating categorial_reaction_time_rate
+mean_rt <- median(sleep_data_raw$reaction_time)
 
-sleep_data_raw <- sleep_data_raw %>%
-  mutate(reaction_fast = ifelse(reaction_time < median_rt, "fast", "slow"))
 
 #create two groups
 
 sleep_data_two_groups <- sleep_data_raw %>%
-filter(hours_slept %in% c("4-5", "9-10"))
+filter(hours_slept %in% c("4-5", "9-10"))%>%
+  mutate(reaction_time_categ = ifelse(reaction_time < median_rt, "fast", "slow"))
+
 
 #finding the observed difference in my generated data 
 
 obs_diff <- sleep_data_two_groups %>%
-  specify(reaction_fast ~ hours_slept, success = "fast") %>%
-  calculate(stat = "diff in props", order = c("4-5", "9-10"))
+  group_by(hours_slept)%>%
+  summarize(prop_time = mean(reaction_time_categ == "fast")) %>%
+  summarize(stat = diff(prop_time)) %>%
+  pull()
+obs_diff
 
 #creating null hypothesis 
 
@@ -97,16 +101,16 @@ null_dist <- sleep_data_two_groups %>%
 null_dist %>%
   ggplot(aes(x = stat)) +
   geom_histogram(fill = "blue") +
-  geom_vline(xintercept = obs_diff %>% pull(stat), color = "red")+
+  geom_vline(xintercept = obs_diff, color = "red")+
   labs(x = "Difference in Means", y = "Frequency")
 
 # calculating p-value
-p_value <- sleep_data_two_groups %>%
-  filter(obs_diff %>% pull(stat) <= obs_diff) %>% 
+p_value <- null_dist %>%
+  filter(stat <= obs_diff) %>% 
   nrow() / nrow(null_dist)
 
 p_value
-# it would seem from the graph that null hypothesis can be rejected but the p-value is too large
+# it would seem from the graph & the p-value that the observed difference is consistent with the null hypothesis
 # measuring quantiles
 
 null_dist %>% 
