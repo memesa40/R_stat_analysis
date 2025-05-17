@@ -17,9 +17,10 @@
 
 ## main findings:
 
-1- age and gender do not significantly affect reaction time in this sample\
-2- sleep duration categories show mixed effects on reaction time. *may be due to testing errors*\
-3- the permutation test suggests the null hypothesis cannot be confidently rejected based on the simulated data\
+1- the null hypothesis cannot be rejected for the correlation of sleep and reaction time\
+2- age and gender do not significantly affect reaction time in this sample\
+3- sleep duration categories show mixed effects on reaction time. *may be due to testing errors*\
+4- the permutation test suggests the null hypothesis cannot be confidently rejected based on the simulated data\
 
 ## to replicate you will need:
 
