@@ -21,10 +21,10 @@
 2- sleep duration categories show mixed effects on reaction time. *may be due to testing errors*\
 3- the permutation test suggests the null hypothesis cannot be confidently rejected based on the simulated data\
 
-## Requirements
+## to replicate you will need:
 
-- **R version:** 4.0.0 or higher  
-- **Required R packages:**  
+**R version:** 4.0.0 or higher  
+**Required R packages:**  
   dplyr\
   tidyverse\
   infer\
