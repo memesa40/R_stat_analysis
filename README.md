@@ -1,4 +1,4 @@
-# This small project explores the relationship between sleep duration and reaction time using simulated data based on statistics from *Ishaque et al. , 2023* 
+## This small project explores the relationship between sleep duration and reaction time using simulated data based on statistics from *Ishaque et al. 2023* 
 
 ## In this analysis I have tried to:
 
@@ -20,3 +20,12 @@
 1- age and gender do not significantly affect reaction time in this sample\
 2- sleep duration categories show mixed effects on reaction time. *may be due to testing errors*\
 3- the permutation test suggests the null hypothesis cannot be confidently rejected based on the simulated data\
+
+## Requirements
+
+- **R version:** 4.0.0 or higher  
+- **Required R packages:**  
+  dplyr\
+  tidyverse\
+  infer\
+  ggplot2\
