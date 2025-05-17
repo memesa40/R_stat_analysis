@@ -24,7 +24,7 @@
 ## to replicate you will need:
 
 **R version:** 4.0.0 or higher  
-**Required R packages:**  
+**R packages:**  
   dplyr\
   tidyverse\
   infer\
